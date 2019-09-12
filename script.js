@@ -11,7 +11,7 @@ function start() {
 }
 
 function displayColor(event) {
-  const box = document.querySelector(".box");
+  const box = document.querySelector(".main-box");
   box.style.backgroundColor = event.target.value;
   document.querySelector(".hex").textContent = "HEX: " + colorSelector.value;
   document.querySelector(".rgb").textContent =
