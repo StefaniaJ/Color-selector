@@ -64,8 +64,8 @@ function rgbToHsl(r, g, b) {
     s = (max - l) / Math.min(l, 1 - l);
   }
   // multiply s and l by 100 to get the value in percent, rather than [0,1]
-  s *= 100;
-  l *= 100;
+  s = +(s * 100).toFixed(0);
+  l = +(l * 100).toFixed(0);
 
   console.log("hsl(%f,%f%,%f%)", h, s, l);
   document.querySelector(".hsl").textContent =
