@@ -16,28 +16,27 @@ document.querySelectorAll("#colorPalette").forEach(option => {
 input.addEventListener("input", start);
 
 function start() {
-  displayColorBox();
-  displayHEX();
-  displayRGB();
-  displayHSL();
+  displayMainBoxColor();
+  showRGB();
+  showHEX();
+  showHSL();
 }
 
-function displayColorBox() {
+function displayMainBoxColor() {
   document.querySelector(".main-box").style.backgroundColor = input.value;
 }
 
-function displayHEX() {
-  document.querySelector(".hex").innerHTML = "HEX: " + inputField.value;
-}
-
-function displayRGB() {
+function showRGB() {
   let r = hexToRgb(input.value).r;
   let g = hexToRgb(input.value).g;
   let b = hexToRgb(input.value).b;
   document.querySelector(".rgb").innerHTML = `RGB: (${r}, ${g}, ${b})`;
 }
+function showHEX() {
+  document.querySelector(".hex").innerHTML = "HEX: " + input.value;
+}
 
-function displayHSL() {
+function showHSL() {
   let r = hexToRgb(input.value).r;
   let g = hexToRgb(input.value).g;
   let b = hexToRgb(input.value).b;
@@ -46,25 +45,6 @@ function displayHSL() {
   let l = rgbToHsl(r, g, b).l;
   document.querySelector(".hsl").innerHTML = `HSL: (${h}, ${s}%, ${l}%)`;
 }
-
-// let colorSelector;
-// const defaultColor = "#ab2567";
-// document.addEventListener("DOMContentLoaded", start);
-
-// function start() {
-//   colorSelector = document.querySelector("#colorSelector");
-//   colorSelector.value = defaultColor;
-//   colorSelector.addEventListener("input", displayColor);
-//   colorSelector.select();
-// }
-
-// function displayColor(event) {
-//   const box = document.querySelector(".main-box");
-//   box.style.backgroundColor = event.target.value;
-//   document.querySelector(".hex").textContent = "HEX: " + colorSelector.value;
-//   document.querySelector(".rgb").textContent =
-//     "RGB: " + hexToRgb(colorSelector.value);
-// }
 
 function hexToRgb(h) {
   let r = 0,
@@ -113,76 +93,68 @@ function rgbToHsl(r, g, b) {
   s = +(s * 100).toFixed(0);
   l = +(l * 100).toFixed(0);
 
-  changePalette();
+  selectPalette();
 
-  function changePalette() {
+  function selectPalette() {
     let value = document.querySelector("#colorPalette").value;
 
     if (value === "analogus") {
-      displayAnalogHSL(h, s, l);
-    } else if (value === "monochromatic") {
-      displayMonochromeHSL(h, s, l);
-    } else if (value === "triad") {
-      displayTriadHSL(h, s, l);
+      showAnalogHSL(h, s, l);
     } else if (value === "complementary") {
-      displayComplementHSL(h, s, l);
+      showComplementHSL(h, s, l);
     } else if (value === "compound") {
-      displayCompoundHSL(h, s, l);
+      showCompoundHSL(h, s, l);
+    } else if (value === "monochromatic") {
+      showMonochromeHSL(h, s, l);
     } else if (value === "shades") {
-      displayShadesHSL(h, s, l);
+      showShadesHSL(h, s, l);
+    } else if (value === "triad") {
+      showTriadHSL(h, s, l);
     } else {
       selectColor.forEach(color => {
-        color.style.backgroundColor = "#27212c";
+        color.style.backgroundColor = "#ab2567";
       });
     }
   }
-
   return { h, s, l };
-
-  // console.log("hsl(%f,%f%,%f%)", h, s, l);
-  // document.querySelector(".hsl").textContent =
-  //   "HSL: " + h + ", " + s + "%, " + l + "%";
 }
 
-// ---------COLOR PALLETTE FUNCTIONS ---------------
-function displayAnalogHSL(h, s, l) {
-  colorPalette.forEach(color => {
+//  ////All Palette options
+function showAnalogHSL(h, s, l) {
+  boxes.forEach(color => {
     h = h + 20;
     color.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
   });
 }
 
-function displayShadesHSL(h, s, l) {
-  colorPalette.forEach(color => {
-    l = l + 7;
-    color.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
-  });
-}
-
-function displayMonochromeHSL(h, s, l) {
-  colorPalette.forEach(color => {
-    h = h - 20;
-    color.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
-  });
-}
-
-function displayComplementHSL(h, s, l) {
+function showComplementHSL(h, s, l) {
   box1.style.backgroundColor = `hsl(${h + 180},${s}%,${l}%)`;
   box2.style.backgroundColor = `hsl(${h + 180},${s}%,${l + 20}%)`;
   box4.style.backgroundColor = `hsl(${h},${s}%,${l + 10}%)`;
   box5.style.backgroundColor = `hsl(${h},${s}%,${l + 20}%)`;
 }
-
-function displayTriadHSL(h, s, l) {
-  box1.style.backgroundColor = `hsl(${h + 60},${s}%,${l}%)`;
-  box2.style.backgroundColor = `hsl(${h},${s}%,${l - 7}%)`;
-  box4.style.backgroundColor = `hsl(${h},${s}%,${l + 17}%)`;
-  box5.style.backgroundColor = `hsl(${h + 120},${s}%,${l}%)`;
-}
-
-function displayCompoundHSL(h, s, l) {
+function showCompoundHSL(h, s, l) {
   box1.style.backgroundColor = `hsl(${h + 180},${s}%,${l}%)`;
   box2.style.backgroundColor = `hsl(${h + 180},${s - 50}%,${l}%)`;
   box4.style.backgroundColor = `hsl(${h + 20},${s}%,${l}%)`;
   box5.style.backgroundColor = `hsl(${h + 20},${s - 50}%,${l}%)`;
+}
+function showMonochromeHSL(h, s, l) {
+  boxes.forEach(color => {
+    h = h - 20;
+    color.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
+  });
+}
+function showShadesHSL(h, s, l) {
+  boxes.forEach(color => {
+    l = l + 7;
+    color.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
+  });
+}
+
+function showTriadHSL(h, s, l) {
+  box1.style.backgroundColor = `hsl(${h + 60},${s}%,${l}%)`;
+  box2.style.backgroundColor = `hsl(${h},${s}%,${l - 7}%)`;
+  box4.style.backgroundColor = `hsl(${h},${s}%,${l + 17}%)`;
+  box5.style.backgroundColor = `hsl(${h + 120},${s}%,${l}%)`;
 }
